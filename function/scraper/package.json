@@ -1,0 +1,19 @@
+{
+  "name": "scraper",
+  "description": "Headless Chrome webscraper",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "chrome-aws-lambda": "^3.1.1",
+    "puppeteer-core": "^3.3.0"
+  },
+  "devDependencies": {
+    "jest": "^24.7.1",
+    "puppeteer": "^3.3.0",
+    "aws-sdk-mock": "^5.1.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "postpack": "tarball=$(npm list - depth 0 | sed 's/@/-/g; s/ .*/.tgz/g; 1q;'); tar -tf $tarball | sed 's/^package\\///' | zip -@r package; rm $tarball"
+  }
+}
