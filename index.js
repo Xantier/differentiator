@@ -166,8 +166,6 @@ function diffBucketPutPolicy([bucketName, scraperRoleArn, differRoleArn]) {
     });
 }
 
-const fanout = new aws.sns.Topic("site-diff-fanout", {});
-
 const lambdaLayer = new aws.lambda.LayerVersion("lambda_layer", {
     compatibleRuntimes: ["nodejs12.x"],
     code: new pulumi.asset.FileArchive("./function/chrome-lambda-layer/chrome_aws_lambda.zip"),
@@ -237,8 +235,8 @@ const cloudWatchSiteDiffEventRule = new aws.cloudwatch.EventRule('site-diff-even
 });
 new aws.cloudwatch.EventRuleEventSubscription('site-diff-fanout-trigger', cloudWatchSiteDiffEventRule, siteDiffFanOutFunction)
 
-// Export the name of the bucket
 exports.bucketName = bucket.id;
-exports.snsTopic = fanout.id;
 exports.siteScraperFunction = siteScraperLambda.id;
 exports.siteDifferFunction = siteDifferLambda.id;
+exports.siteDiffTable = siteDiffDDB.name
+exports.scrapedSitesTable = scrapedSitesTable.name
